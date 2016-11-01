@@ -5,7 +5,7 @@
 class flink::service {
   if $::flink::manage_service {
     case $::flink::service_provider {
-      'init': {
+      'debian','init','redhat': {
         file { "/etc/init.d/${::flink::service_name}":
           content => template('flink/flink.init.erb'),
           group   => $::flink::group,
@@ -38,8 +38,9 @@ class flink::service {
     }
 
     service { $::flink::service_name:
-      ensure => running,
-      enable => true,
+      ensure   => running,
+      enable   => true,
+      provider => $::flink::service_provider,
     }
   }
 }

@@ -18,7 +18,7 @@ class flink::params () {
     'Debian': {
       case $::operatingsystemrelease {
         /(7.*|14\.04.*)/ : {
-          $service_provider = 'init'
+          $service_provider = 'debian'
         }
         default : {
           $service_provider = 'systemd'
@@ -28,7 +28,7 @@ class flink::params () {
     'RedHat': {
       case $::operatingsystemrelease {
         /6.*/ : {
-          $service_provider = 'init'
+          $service_provider = 'redhat'
         }
         default : {
           $service_provider = 'systemd'
