@@ -1,0 +1,12 @@
+[Unit]
+Description=<%= scope['flink::service_name'] %>
+After=network.target
+
+[Service]
+WorkingDirectory=<%= scope['flink::install_dir'] %>/bin
+ExecStart=<%= scope['flink::install_dir'] %>/bin/start-local.sh
+ExecStop=<%= scope['flink::install_dir'] %>/bin/stop-local.sh
+PIDFile=/tmp/flink--jobmanager.pid
+
+[Install]
+WantedBy=multi-user.target
