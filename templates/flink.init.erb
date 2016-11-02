@@ -4,9 +4,9 @@
 # description: flink daemon
 # processname: flink
 
-NAME=flink
+NAME=<%= scope['flink::service_name'] %>
 DESC="Flink Jobmanager"
-PIDFILE=/tmp/$NAME--jobmanager.pid
+PIDFILE=/tmp/flink--jobmanager.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
 case "$1" in
@@ -36,7 +36,7 @@ stop)
 printf "%-50s" "Stopping $NAME"
 PID=`cat $PIDFILE`
 if [ -f $PIDFILE ]; then
-<%= scope['flink::install_dir'] %>/bin/stop-local.sh
+<%= scope['flink::install_dir'] %>/bin/stop-local.sh > /dev/null 2>&1
 rm -f $PIDFILE
 else
 printf "%s\n" "pidfile not found"

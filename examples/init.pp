@@ -10,4 +10,7 @@
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
 class { '::java': } ->
-class { '::flink': }
+class { '::flink':
+  archive_source => 'http://apache.xl-mirror.nl/flink/flink-1.1.3/flink-1.1.3-bin-hadoop27-scala_2.11.tgz',
+  install_method => 'archive',
+}

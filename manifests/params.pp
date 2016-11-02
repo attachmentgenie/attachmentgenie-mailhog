@@ -4,14 +4,13 @@
 #
 class flink::params () {
   $archive_source  = undef
-  $archive_version = '1.1.3'
   $group           = 'flink'
   $install_dir     = '/opt/flink'
-  $install_method  = 'archive'
+  $install_method  = 'package'
   $manage_service  = true
   $manage_user     = true
-  $package_version = 'present'
   $package_name    = 'flink'
+  $package_version = 'present'
   $service_name    = 'flink'
   $user            = 'flink'
   case $::osfamily {
