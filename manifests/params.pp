@@ -1,18 +1,16 @@
-# Class to manage flink parameters.
+# Class to manage mailhog parameters.
 #
 # Dont include this class directly.
 #
-class flink::params () {
-  $archive_source  = undef
-  $group           = 'flink'
-  $install_dir     = '/opt/flink'
+class mailhog::params () {
+  $install_dir     = '/usr/bin'
   $install_method  = 'package'
   $manage_service  = true
   $manage_user     = true
-  $package_name    = 'flink'
+  $package_name    = 'mailhog'
   $package_version = 'present'
-  $service_name    = 'flink'
-  $user            = 'flink'
+  $service_name    = 'mailhog'
+  $wget_source     = undef
   case $::osfamily {
     'Debian': {
       case $::operatingsystemrelease {

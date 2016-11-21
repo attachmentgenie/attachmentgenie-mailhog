@@ -9,8 +9,7 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-class { '::java': } ->
-class { '::flink':
-  archive_source => 'http://apache.xl-mirror.nl/flink/flink-1.1.3/flink-1.1.3-bin-hadoop27-scala_2.11.tgz',
-  install_method => 'archive',
+class { '::mailhog':
+  install_method => 'wget',
+  wget_source    => 'https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64',
 }

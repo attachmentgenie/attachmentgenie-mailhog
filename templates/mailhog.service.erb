@@ -1,0 +1,8 @@
+[Unit]
+Description=<%= scope['mailhog::service_name'] %>
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=<%= scope['mailhog::install_dir'] %>/mailhog > /dev/null 2>&1
+ExecStop=<%= scope['mailhog::install_dir'] %>/mailhog > /dev/null 2>&1

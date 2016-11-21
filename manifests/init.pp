@@ -1,57 +1,48 @@
-# Class to install and configure apache flink.
+# Class to install and configure apache mailhog.
 #
-# Use this module to install and configure apache flink.
+# Use this module to install and configure apache mailhog.
 #
 # @example Declaring the class
-#   include ::flink
+#   include ::mailhog
 #
-# @param archive_source (String) Location of flink binary release.
-# @param group (String) Group that owns flink files.
-# @param install_dir (String) Location of flink binary release.
-# @param install_method (String) How to install flink.
-# @param manage_service (Boolean) Manage the flink service.
-# @param manage_user (Boolean) Manage flink user and group.
+# @param install_dir (String) Location of mailhog binary release.
+# @param install_method (String) How to install mailhog.
+# @param manage_service (Boolean) Manage the mailhog service.
 # @param package_name (String) Name of package to install.
-# @param package_version (String) Version of flink to install.
+# @param package_version (String) Version of mailhog to install.
 # @param service_name (String) Name of service to manage.
 # @param service_provider (String) init system that is used.
-# @parama user (String) user that owns flink files.
-class flink (
-  $archive_source   = $::flink::params::archive_source,
-  $group            = $::flink::params::group,
-  $install_dir      = $::flink::params::install_dir,
-  $install_method   = $::flink::params::install_method,
-  $manage_service   = $::flink::params::manage_service,
-  $manage_user      = $::flink::params::manage_user,
-  $package_name     = $::flink::params::package_name,
-  $package_version  = $::flink::params::package_version,
-  $service_name     = $::flink::params::service_name,
-  $service_provider = $::flink::params::service_provider,
-  $user             = $::flink::params::user,
-) inherits flink::params {
+# @param wget_source (String) Location of mailhog binary release.
+class mailhog (
+  $install_dir      = $::mailhog::params::install_dir,
+  $install_method   = $::mailhog::params::install_method,
+  $manage_service   = $::mailhog::params::manage_service,
+  $package_name     = $::mailhog::params::package_name,
+  $package_version  = $::mailhog::params::package_version,
+  $service_name     = $::mailhog::params::service_name,
+  $service_provider = $::mailhog::params::service_provider,
+  $wget_source      = $::mailhog::params::wget_source,
+) inherits mailhog::params {
   validate_bool(
     $manage_service,
-    $manage_user,
   )
-  if $install_method == 'archive' {
-    validate_string(
-      $archive_source
-    )
-  }
   validate_string(
-    $group,
     $install_dir,
     $install_method,
     $package_name,
     $package_version,
     $service_name,
     $service_provider,
-    $user,
   )
+  if $install_method == 'wget' {
+    validate_string(
+      $wget_source
+    )
+  }
 
-  anchor { 'flink::begin': } ->
-  class{ '::flink::install': } ->
-  class{ '::flink::config': } ~>
-  class{ '::flink::service': } ->
-  anchor { 'flink::end': }
+  anchor { 'mailhog::begin': } ->
+  class{ '::mailhog::install': } ->
+  class{ '::mailhog::config': } ~>
+  class{ '::mailhog::service': } ->
+  anchor { 'mailhog::end': }
 }
