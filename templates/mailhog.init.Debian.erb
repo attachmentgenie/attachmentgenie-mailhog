@@ -1,0 +1,92 @@
+#!/usr/bin/env sh
+# /etc/init.d/mailhog
+#
+# chkconfig:   2 3 4 5 90 60
+# description: Enable MailHog.
+
+### BEGIN INIT INFO
+# Provides:          mailhog
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start MailHog at boot time.
+# Description:       Enable MailHog.
+### END INIT INFO
+
+# Source function library.
+. /lib/lsb/init-functions
+
+exec="<%= scope['mailhog::install_dir'] %>/mailhog"
+prog="<%= scope['mailhog::service_name'] %>"
+config=""
+
+[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+
+PIDFILE=/var/run/$prog.pid
+LOGFILE=/var/log/$prog
+lockfile=/var/lock/subsys/$prog
+
+case $1 in
+start)
+# Checked the PID file exists and check the actual status of process
+if [ -e $PIDFILE ]; then
+status_of_proc -p $PIDFILE $exec "$prog process" && status="0" || status="$?"
+# If the status is SUCCESS then don't need to start again.
+if [ $status = "0" ]; then
+exit # Exit
+fi
+fi
+# Start the daemon.
+log_daemon_msg "Starting the process" "$prog"
+# Start the daemon with the help of start-stop-daemon
+# Log the message appropriately
+if start-stop-daemon --start --make-pidfile --pidfile $PIDFILE --exec $exec > /dev/null 2>&1; then
+log_end_msg 0
+else
+log_end_msg 1
+fi
+;;
+stop)
+# Stop the daemon.
+if [ -e $PIDFILE ]; then
+status_of_proc -p $PIDFILE $exec "Stoppping the $prog process" && status="0" || status="$?"
+if [ "$status" = 0 ]; then
+start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
+/bin/rm -rf $PIDFILE
+fi
+else
+log_daemon_msg "$prog process is not running"
+log_end_msg 0
+fi
+;;
+restart)
+# Restart the daemon.
+$0 stop && sleep 2 && $0 start
+;;
+status)
+# Check the status of the process.
+if [ -e $PIDFILE ]; then
+status_of_proc -p $PIDFILE $exec "$prog process" && exit 0 || exit $?
+else
+log_daemon_msg "$prog Process is not running"
+log_end_msg 0
+fi
+;;
+reload)
+# Reload the process. Basically sending some signal to a daemon to reload
+# it configurations.
+if [ -e $PIDFILE ]; then
+start-stop-daemon --stop --signal USR1 --quiet --pidfile $PIDFILE --name $prog
+log_success_msg "$prog process reloaded successfully"
+else
+log_failure_msg "$PIDFILE does not exists"
+fi
+;;
+*)
+echo "Usage: $0 {start|stop|status|restart|reload}"
+exit 2
+esac
+exit $?

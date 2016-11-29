@@ -7,7 +7,7 @@ class mailhog::service {
     case $::mailhog::service_provider {
       'debian','init','redhat': {
         file { "/etc/init.d/${::mailhog::service_name}":
-          content => template('mailhog/mailhog.init.erb'),
+          content => template("mailhog/mailhog.init.${::osfamily}.erb"),
           mode    => '0755',
           notify  => Service[$::mailhog::service_name],
         }

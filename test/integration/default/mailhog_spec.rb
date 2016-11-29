@@ -11,11 +11,11 @@ end
 
 control 'jobmanager 02' do
   impact 1.0
-  title 'mailhog jobmanager service is listening at port 8081'
+  title 'mailhog jobmanager service is listening at port 8025'
   desc 'Ensures that the mailhog jobmanager service is listening at port 8025'
   describe port(8025) do
     it { should be_listening }
-    its('processes') { should include 'java'}
+    its('processes') { should include 'mailhog'}
     its('protocols') { should include 'tcp6' }
   end
 end
