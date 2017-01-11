@@ -1,6 +1,6 @@
 {
   "name": "attachmentgenie-mailhog",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "bram vogelaar <bram@attachmentgenie.com>",
   "summary": "Setup mailhog",
   "license": "MIT",
@@ -21,8 +21,8 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "14",
-        "16"
+        "14.04",
+        "16.04"
       ]
     },
     {

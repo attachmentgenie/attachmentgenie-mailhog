@@ -16,6 +16,6 @@ control 'jobmanager 02' do
   describe port(8025) do
     it { should be_listening }
     its('processes') { should include 'mailhog'}
-    its('protocols') { should include 'tcp6' }
+    its('protocols') { should include 'tcp' }
   end
 end
