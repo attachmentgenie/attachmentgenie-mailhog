@@ -3,6 +3,7 @@
 # Dont include this class directly.
 #
 class mailhog::params () {
+  $config          = '-ui-bind-addr=127.0.0.1:8025 -api-bind-addr=127.0.0.1:8025'
   $install_dir     = '/usr/bin'
   $install_method  = 'package'
   $manage_service  = true
@@ -13,6 +14,7 @@ class mailhog::params () {
   $wget_source     = undef
   case $::osfamily {
     'Debian': {
+      $config_file = '/etc/default/mailhog'
       case $::operatingsystemrelease {
         /(7.*|14\.04.*)/ : {
           $service_provider = 'debian'
@@ -23,6 +25,7 @@ class mailhog::params () {
       }
     }
     'RedHat': {
+      $config_file = '/etc/sysconfig/mailhog'
       case $::operatingsystemrelease {
         /6.*/ : {
           $service_provider = 'redhat'

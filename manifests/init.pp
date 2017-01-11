@@ -5,6 +5,8 @@
 # @example Declaring the class
 #   include ::mailhog
 #
+# @param config (String) Mailhog config.
+# @param config_file (String) Mailhog config file.
 # @param install_dir (String) Location of mailhog binary release.
 # @param install_method (String) How to install mailhog.
 # @param manage_service (Boolean) Manage the mailhog service.
@@ -14,6 +16,8 @@
 # @param service_provider (String) init system that is used.
 # @param wget_source (String) Location of mailhog binary release.
 class mailhog (
+  $config           = $::mailhog::params::config,
+  $config_file      = $::mailhog::params::config_file,
   $install_dir      = $::mailhog::params::install_dir,
   $install_method   = $::mailhog::params::install_method,
   $manage_service   = $::mailhog::params::manage_service,
@@ -27,6 +31,7 @@ class mailhog (
     $manage_service,
   )
   validate_string(
+    $config_file,
     $install_dir,
     $install_method,
     $package_name,
