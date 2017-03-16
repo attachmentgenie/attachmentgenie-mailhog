@@ -16,7 +16,7 @@ class mailhog::params () {
     'Debian': {
       $config_file = '/etc/default/mailhog'
       case $::operatingsystemrelease {
-        /(7.*|14\.04.*)/ : {
+        /(^7.*|^14\.04.*)/ : {
           $service_provider = 'debian'
         }
         default : {
@@ -27,7 +27,7 @@ class mailhog::params () {
     'RedHat': {
       $config_file = '/etc/sysconfig/mailhog'
       case $::operatingsystemrelease {
-        /6.*/ : {
+        /^6.*/ : {
           $service_provider = 'redhat'
         }
         default : {
