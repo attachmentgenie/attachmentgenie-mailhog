@@ -45,9 +45,9 @@ class mailhog (
     )
   }
 
-  anchor { 'mailhog::begin': } ->
-  class{ '::mailhog::install': } ->
-  class{ '::mailhog::config': } ~>
-  class{ '::mailhog::service': } ->
-  anchor { 'mailhog::end': }
+  anchor { 'mailhog::begin': }
+  -> class{ '::mailhog::install': }
+  -> class{ '::mailhog::config': }
+  ~> class{ '::mailhog::service': }
+  -> anchor { 'mailhog::end': }
 }

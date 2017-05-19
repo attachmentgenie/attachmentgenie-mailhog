@@ -12,14 +12,14 @@ class mailhog::install {
     'wget': {
       file { $::mailhog::install_dir:
         ensure => directory,
-      } ->
-      wget::fetch { '/usr/bin/mailhog':
+      }
+      -> wget::fetch { '/usr/bin/mailhog':
         source      => $::mailhog::wget_source,
         destination => "${::mailhog::install_dir}/mailhog",
         timeout     => 0,
         verbose     => false,
-      } ->
-      file { "${::mailhog::install_dir}/mailhog":
+      }
+      -> file { "${::mailhog::install_dir}/mailhog":
         group => 'root',
         mode  => '0755',
         owner => 'root',
