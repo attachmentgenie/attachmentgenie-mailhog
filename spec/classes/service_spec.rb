@@ -3,134 +3,183 @@ describe 'mailhog' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
-      context "service" do
-
+      context 'service' do
         context 'with manage_service set to true' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service => true,
-                :service_name   => 'mailhog'
+              manage_service: true,
+              service_name: 'mailhog'
             }
-          }
-          it { should contain_service('mailhog') }
+          end
+          it { is_expected.to contain_service('mailhog') }
         end
 
         context 'with manage_service set to false' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service => false,
-                :service_name   => 'mailhog'
+              manage_service: false,
+              service_name: 'mailhog'
             }
-          }
-          it { should_not contain_service('mailhog') }
+          end
+          it { is_expected.not_to contain_service('mailhog') }
         end
 
         context 'with service_name set to specialservice' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service => true,
-                :service_name   => 'specialservice',
+              manage_service: true,
+              service_name: 'specialservice'
             }
-          }
-          it { should contain_service('specialservice') }
+          end
+          it { is_expected.to contain_service('mailhog').with_name('specialservice') }
         end
 
         context 'with service_name set to specialservice and with service_provider set to debian' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_name     => 'specialservice',
-                :service_provider => 'debian',
+              manage_service: true,
+              service_name: 'specialservice',
+              service_provider: 'debian'
             }
-          }
-          it { should contain_service('specialservice') }
-          it { should contain_file('/etc/init.d/specialservice').that_notifies('Service[specialservice]').with_content(/^NAME="specialservice"/) }
+          end
+          it { is_expected.to contain_service('mailhog').with_name('specialservice') }
+          it { is_expected.to contain_file('mailhog service file').that_notifies('Service[mailhog]').with_content(%r{^NAME="specialservice"}) }
+        end
+
+        context 'with install_dir set to /opt/special and manage_service set to true and service_provider set to debian' do
+          let(:params) do
+            {
+              install_dir: '/opt/special',
+              manage_service: true,
+              service_name: 'mailhog',
+              service_provider: 'debian'
+            }
+          end
+          it { is_expected.to contain_file('mailhog service file').with_content(%r{^BIN="\/opt\/special\/mailhog"$}) }
+        end
+
+        context 'with install_dir set to /opt/special and manage_service set to true and service_provider set to init' do
+          let(:params) do
+            {
+              install_dir: '/opt/special',
+              manage_service: true,
+              service_name: 'mailhog',
+              service_provider: 'init'
+            }
+          end
+          it { is_expected.to contain_file('mailhog service file').with_content(%r{^BIN="\/opt\/special\/mailhog"$}) }
+        end
+
+        context 'with install_dir set to /opt/special and manage_service set to true and service_provider set to redhat' do
+          let(:params) do
+            {
+              install_dir: '/opt/special',
+              manage_service: true,
+              service_name: 'mailhog',
+              service_provider: 'redhat'
+            }
+          end
+          it { is_expected.to contain_file('mailhog service file').with_content(%r{^BIN="\/opt\/special\/mailhog"$}) }
         end
 
         context 'with service_name set to specialservice and with service_provider set to init' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_name     => 'specialservice',
-                :service_provider => 'init',
+              manage_service: true,
+              service_name: 'specialservice',
+              service_provider: 'init'
             }
-          }
-          it { should contain_service('specialservice') }
-          it { should contain_file('/etc/init.d/specialservice').that_notifies('Service[specialservice]').with_content(/^NAME="specialservice"/) }
+          end
+          it { is_expected.to contain_service('mailhog').with_name('specialservice') }
+          it { is_expected.to contain_file('mailhog service file').that_notifies('Service[mailhog]').with_content(%r{^NAME="specialservice"}) }
         end
 
         context 'with service_name set to specialservice and with service_provider set to redhat' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_name     => 'specialservice',
-                :service_provider => 'redhat',
+              manage_service: true,
+              service_name: 'specialservice',
+              service_provider: 'redhat'
             }
-          }
-          it { should contain_service('specialservice') }
-          it { should contain_file('/etc/init.d/specialservice').that_notifies('Service[specialservice]').with_content(/^NAME="specialservice"/) }
+          end
+          it { is_expected.to contain_service('mailhog').with_name('specialservice') }
+          it { is_expected.to contain_file('mailhog service file').that_notifies('Service[mailhog]').with_content(%r{^NAME="specialservice"}) }
         end
 
         context 'with service_name set to specialservice and with service_provider set to systemd' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_name     => 'specialservice',
-                :service_provider => 'systemd',
+              manage_service: true,
+              service_name: 'specialservice',
+              service_provider: 'systemd'
             }
-          }
-          it { should contain_service('specialservice') }
-          it { should contain_systemd__Unit_file('specialservice.service').that_comes_before('Service[specialservice]').with_content(/^Description=specialservice/) }
+          end
+          it { is_expected.to contain_service('mailhog').with_name('specialservice') }
+          it { is_expected.to contain_systemd__Unit_file('specialservice.service').that_comes_before('Service[mailhog]').with_content(%r{^Description=specialservice}) }
         end
 
         context 'with service_name set to specialservice and with install_method set to package' do
-          let(:params) {
+          let(:params) do
             {
-                :install_method => 'package',
-                :manage_service => true,
-                :package_name   => 'mailhog',
-                :service_name   => 'specialservice',
+              install_method: 'package',
+              manage_service: true,
+              package_name: 'mailhog',
+              service_name: 'specialservice'
             }
-          }
-          it { should contain_service('specialservice').that_subscribes_to('Package[mailhog]') }
+          end
+          it { is_expected.to contain_service('mailhog').that_subscribes_to('Package[mailhog]') }
         end
 
         context 'with service_provider set to init' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_name     => 'mailhog',
-                :service_provider => 'init',
+              manage_service: true,
+              service_name: 'mailhog',
+              service_provider: 'init'
             }
-          }
-          it { should contain_file('/etc/init.d/mailhog') }
-          it { should_not contain_systemd__Unit_file('mailhog.service').that_comes_before('Service[mailhog]') }
-          it { should contain_service('mailhog') }
+          end
+          it { is_expected.to contain_file('mailhog service file') }
+          it { is_expected.not_to contain_systemd__Unit_file('mailhog.service').that_comes_before('Service[mailhog]') }
+          it { is_expected.to contain_service('mailhog') }
         end
 
         context 'with service_provider set to systemd' do
-          let(:params) {
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_name     => 'mailhog',
-                :service_provider => 'systemd',
+              manage_service: true,
+              service_name: 'mailhog',
+              service_provider: 'systemd'
             }
-          }
-          it { should_not contain_file('/etc/init.d/mailhog') }
-          it { should contain_systemd__Unit_file('mailhog.service').that_comes_before('Service[mailhog]') }
-          it { should contain_service('mailhog') }
+          end
+          it { is_expected.not_to contain_file('mailhog service file') }
+          it { is_expected.to contain_systemd__Unit_file('mailhog.service').that_comes_before('Service[mailhog]') }
+          it { is_expected.to contain_service('mailhog') }
         end
 
-        context 'with service_provider set to invalid' do
-          let(:params) {
+        context 'with install_dir set to mailhog install dir and manage_service set to true and service_provider set to systemd' do
+          let(:params) do
             {
-                :manage_service   => true,
-                :service_provider => 'invalid',
+              install_dir: '/opt/special',
+              manage_service: true,
+              service_name: 'mailhog',
+              service_provider: 'systemd'
             }
-          }
-          it { should raise_error(/Service provider invalid not supported/) }
+          end
+          it { is_expected.to contain_systemd__Unit_file('mailhog.service').with_content(%r{^ExecStart=/opt/special/mailhog}) }
         end
 
+        context 'with package_name set to specialpackage and manage_service set to true' do
+          let(:params) do
+            {
+              install_method: 'package',
+              manage_service: true,
+              package_name: 'specialpackage',
+              service_name: 'mailhog'
+            }
+          end
+          it { is_expected.to contain_package('mailhog').with_name('specialpackage') }
+          it { is_expected.to contain_service('mailhog').that_subscribes_to('Package[mailhog]') }
+        end
       end
     end
   end

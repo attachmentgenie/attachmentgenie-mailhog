@@ -11,7 +11,7 @@ class mailhog::config {
 
   if $::mailhog::manage_service {
     File['mailhog-config'] {
-      notify  => Service[$::mailhog::service_name],
+      notify  => Service['mailhog'],
     }
   }
 }

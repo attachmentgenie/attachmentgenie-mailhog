@@ -11,6 +11,7 @@ class mailhog::params () {
   $package_name    = 'mailhog'
   $package_version = 'present'
   $service_name    = 'mailhog'
+  $service_ensure  = 'running'
   $wget_source     = undef
   case $::osfamily {
     'Debian': {
