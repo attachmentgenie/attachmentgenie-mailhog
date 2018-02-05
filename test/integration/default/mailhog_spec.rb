@@ -3,9 +3,9 @@ control 'jobmanager 01' do
   title 'mailhog jobmanager service is running'
   desc 'Ensures that the mailhog jobmanager service is up and running'
   describe service('mailhog') do
-    it { should be_enabled }
-    it { should be_installed }
-    it { should be_running }
+    it { is_expected.to be_enabled }
+    it { is_expected.to be_installed }
+    it { is_expected.to be_running }
   end
 end
 
@@ -14,8 +14,8 @@ control 'jobmanager 02' do
   title 'mailhog jobmanager service is listening at port 8025'
   desc 'Ensures that the mailhog jobmanager service is listening at port 8025'
   describe port(8025) do
-    it { should be_listening }
-    its('processes') { should include 'mailhog'}
-    its('protocols') { should include 'tcp' }
+    it { is_expected.to be_listening }
+    its('processes') { is_expected.to include 'mailhog' }
+    its('protocols') { is_expected.to include 'tcp' }
   end
 end
