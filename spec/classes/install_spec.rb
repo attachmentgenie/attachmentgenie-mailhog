@@ -1,16 +1,18 @@
 require 'spec_helper'
 describe 'mailhog' do
-  on_os_under_test.each do |os, facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
+
       context 'install' do
         context 'with wget_source set to special_mailhog' do
           let(:params) do
             {
               install_method: 'wget',
-              wget_source: 'special_mailhog'
+              wget_source: 'special_mailhog',
             }
           end
+
           it { is_expected.to contain_wget__fetch('mailhog binary').with_source('special_mailhog') }
         end
 
@@ -18,9 +20,10 @@ describe 'mailhog' do
           let(:params) do
             {
               install_dir: '/opt/special',
-              install_method: 'wget'
+              install_method: 'wget',
             }
           end
+
           it { is_expected.to contain_file('mailhog install dir').with_path('/opt/special') }
           it { is_expected.to contain_wget__fetch('mailhog binary').with_destination('/opt/special/mailhog') }
           it { is_expected.to contain_wget__fetch('mailhog binary').that_requires('File[mailhog install dir]') }
@@ -31,9 +34,10 @@ describe 'mailhog' do
             {
               install_dir: '/usr/bin',
               install_method: 'package',
-              package_name: 'mailhog'
+              package_name: 'mailhog',
             }
           end
+
           it { is_expected.not_to contain_file('mailhog install dir').that_comes_before('Wget::Fetch[mailhog binary]') }
           it { is_expected.not_to contain_wget__fetch('mailhog binary') }
           it { is_expected.to contain_package('mailhog') }
@@ -44,9 +48,10 @@ describe 'mailhog' do
             {
               install_dir: '/usr/bin',
               install_method: 'wget',
-              package_name: 'mailhog'
+              package_name: 'mailhog',
             }
           end
+
           it { is_expected.to contain_file('mailhog install dir').that_comes_before('Wget::Fetch[mailhog binary]') }
           it { is_expected.to contain_wget__fetch('mailhog binary') }
           it { is_expected.to contain_file('mailhog binary') }
@@ -57,9 +62,10 @@ describe 'mailhog' do
           let(:params) do
             {
               install_method: 'package',
-              package_name: 'specialpackage'
+              package_name: 'specialpackage',
             }
           end
+
           it { is_expected.to contain_package('mailhog').with_name('specialpackage') }
         end
 
@@ -68,9 +74,10 @@ describe 'mailhog' do
             {
               install_method: 'package',
               package_name: 'mailhog',
-              package_version: '42.42.42'
+              package_version: '42.42.42',
             }
           end
+
           it { is_expected.to contain_package('mailhog').with_ensure('42.42.42') }
         end
       end
