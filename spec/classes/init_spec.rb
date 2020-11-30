@@ -7,7 +7,6 @@ describe 'mailhog' do
       context 'config' do
         context 'with defaults for all parameters' do
           it { is_expected.to contain_class('mailhog') }
-          it { is_expected.to contain_class('mailhog::params') }
           it { is_expected.to contain_anchor('mailhog::begin').that_comes_before('Class[mailhog::Install]') }
           it { is_expected.to contain_class('mailhog::install').that_comes_before('Class[mailhog::Config]') }
           it { is_expected.to contain_class('mailhog::config').that_notifies('Class[mailhog::Service]') }

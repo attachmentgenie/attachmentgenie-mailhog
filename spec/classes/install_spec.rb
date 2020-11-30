@@ -5,28 +5,28 @@ describe 'mailhog' do
       let(:facts) { facts }
 
       context 'install' do
-        context 'with wget_source set to special_mailhog' do
+        context 'with archive_source set to special_mailhog' do
           let(:params) do
             {
-              install_method: 'wget',
-              wget_source: 'special_mailhog',
+              install_method: 'archive',
+              archive_source: 'special_mailhog',
             }
           end
 
-          it { is_expected.to contain_wget__fetch('mailhog binary').with_source('special_mailhog') }
+          it { is_expected.to raise_error(%r{expects a match for Stdlib::HTTPUrl}) }
         end
 
         context 'with install_dir set to mailhog install dir' do
           let(:params) do
             {
               install_dir: '/opt/special',
-              install_method: 'wget',
+              install_method: 'archive',
             }
           end
 
           it { is_expected.to contain_file('mailhog install dir').with_path('/opt/special') }
-          it { is_expected.to contain_wget__fetch('mailhog binary').with_destination('/opt/special/mailhog') }
-          it { is_expected.to contain_wget__fetch('mailhog binary').that_requires('File[mailhog install dir]') }
+          it { is_expected.to contain_archive('/opt/special/mailhog') }
+          it { is_expected.to contain_archive('/opt/special/mailhog').that_requires('File[mailhog install dir]') }
         end
 
         context 'with install_method set to package' do
@@ -38,22 +38,22 @@ describe 'mailhog' do
             }
           end
 
-          it { is_expected.not_to contain_file('mailhog install dir').that_comes_before('Wget::Fetch[mailhog binary]') }
-          it { is_expected.not_to contain_wget__fetch('mailhog binary') }
+          it { is_expected.not_to contain_file('mailhog install dir').that_comes_before('Archive[/usr/bin/mailhog]') }
+          it { is_expected.not_to contain_archive__fetch('mailhog binary') }
           it { is_expected.to contain_package('mailhog') }
         end
 
-        context 'with install_method set to wget' do
+        context 'with install_method set to archive' do
           let(:params) do
             {
               install_dir: '/usr/bin',
-              install_method: 'wget',
+              install_method: 'archive',
               package_name: 'mailhog',
             }
           end
 
-          it { is_expected.to contain_file('mailhog install dir').that_comes_before('Wget::Fetch[mailhog binary]') }
-          it { is_expected.to contain_wget__fetch('mailhog binary') }
+          it { is_expected.to contain_file('mailhog install dir').that_comes_before('Archive[/usr/bin/mailhog]') }
+          it { is_expected.to contain_archive('/usr/bin/mailhog') }
           it { is_expected.to contain_file('mailhog binary') }
           it { is_expected.not_to contain_package('mailhog') }
         end

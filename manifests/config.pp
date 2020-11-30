@@ -1,7 +1,6 @@
 # Class to configure mailhog.
 #
-# Dont include this class directly.
-#
+# @api private
 class mailhog::config {
   file { 'mailhog-config':
     path    => $::mailhog::config_file,

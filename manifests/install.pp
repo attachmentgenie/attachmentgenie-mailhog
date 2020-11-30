@@ -1,7 +1,6 @@
 # Class to install mailhog.
 #
-# Dont include this class directly.
-#
+# @api private
 class mailhog::install {
   case $::mailhog::install_method {
     'package': {
@@ -10,16 +9,13 @@ class mailhog::install {
         name   => $::mailhog::package_name,
       }
     }
-    'wget': {
+    'archive': {
       file { 'mailhog install dir':
         ensure => directory,
         path   => $::mailhog::install_dir,
       }
-      -> wget::fetch { 'mailhog binary':
-        source      => $::mailhog::wget_source,
-        destination => "${::mailhog::install_dir}/mailhog",
-        timeout     => 0,
-        verbose     => false,
+      -> archive { "${::mailhog::install_dir}/mailhog":
+        source      => $::mailhog::archive_source,
       }
       -> file { 'mailhog binary':
         group => 'root',

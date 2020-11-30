@@ -1,7 +1,6 @@
 # Class to manage the mailhog service.
 #
-# Dont include this class directly.
-#
+# @api private
 class mailhog::service {
   if $::mailhog::manage_service {
     case $::mailhog::service_provider {
@@ -30,7 +29,7 @@ class mailhog::service {
           subscribe => Package['mailhog'],
         }
       }
-      'wget': {}
+      'archive': {}
       default: {
         fail("Installation method ${::mailhog::install_method} not supported")
       }

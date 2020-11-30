@@ -27,27 +27,17 @@ MailHog is an email testing tool for developers:
 - Package/service/configuration files for Mailhog
 - Listened-to ports
 
-### Setup Requirements
+## Usage
 
-none
+All options and configuration can be done through interacting with the parameters
+on the main mailhog class.
+These are now documented via [Puppet Strings](https://github.com/puppetlabs/puppet-strings)
 
-### Beginning with mailhog
+You can view example usage in [REFERENCE](REFERENCE.md).
 
-To have Puppet install Mailhog with the default parameters, declare the mailhog class:
+## Reference
 
-``` puppet
-class { 'mailhog': }
-```
-
-You can customize parameters when declaring the `mailhog` class. For instance,
- this declaration installs Mailhog by downloading a tarball instead of instead of using a package.
-
-``` puppet
-class { '::mailhog':
-  install_method => 'wget',
-  wget_source    => 'https://github.com/mailhog/MailHog/releases/download/v0.2.1/MailHog_linux_amd64',
-}
-```
+See [REFERENCE](REFERENCE.md).
 
 ## Limitations
 
@@ -57,12 +47,14 @@ This module currently only exposes a subset of all configuration options.
 
 ### Running tests
 
-This project contains tests for both rspec-puppet and test kitchen to verify functionality. For detailed information on using these tools, please see their respective documentation.
+This project contains tests for both rspec-puppet and litmus to verify functionality. For detailed information on using these tools, please see their respective documentation.
 
 #### Testing quickstart:
 
 ```
-gem install bundler
-bundle install
-bundle exec rake guard
-bundle exec kitchen test
+pdk bundle install
+pdk bundle exec rake 'litmus:provision_list[puppet6]'
+pdk bundle exec rake 'litmus:install_agent[puppet6]'
+pdk bundle exec rake litmus:install_module
+pdk bundle exec rake litmus:acceptance:parallel
+pdk bundle exec rake litmus:tear_down
