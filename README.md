@@ -1,36 +1,31 @@
 # attachmentgenie-mailhog
 
-#### Table of Contents
+[![](https://img.shields.io/puppetforge/pdk-version/attachmentgenie/mailhog.svg?style=popout)](https://forge.puppetlabs.com/attachmentgenie/mailhog)
+[![](https://img.shields.io/puppetforge/v/attachmentgenie/mailhog.svg?style=popout)](https://forge.puppetlabs.com/attachmentgenie/mailhog)
+[![](https://img.shields.io/puppetforge/dt/attachmentgenie/mailhog.svg?style=popout)](https://forge.puppetlabs.com/attachmentgenie/mailhog)
+[![](https://travis-ci.org/attachmentgenie/attachmentgenie-mailhog.svg?branch=master)](https://travis-ci.org/attachmentgenie/attachmentgenie-mailhog)
+[![License](https://img.shields.io/github/license/attachmentgenie/attachmentgenie-mailhog?stype=popout)](https://github.com/attachmentgenie/attachmentgenie-mailhog/blob/master/LICENSE)
 
-1. [Module Description - What the module does and why it is useful](#module-description)
-2. [Setup - The basics of getting started with mailhog](#setup)
-    * [What mailhog affects](#what-mailhog-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with mailhog](#beginning-with-mailhog)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+Deploy and configure mailhog on a node.
 
-## Module Description
+- [Description](#description)
+- [Usage](#usage)
+- [Reference](#reference)
+- [Changelog](#changelog)
+- [Limitations](#limitations)
+- [Development](#development)
+
+## Description
 
 MailHog is an email testing tool for developers:
 
     - Configure your application to use MailHog for SMTP delivery
     - View messages in the web UI, or retrieve them with the JSON API
 
-## Setup
-
-### What mailhog affects
-
-- Configuration files and directories (created and written to)
-- Package/service/configuration files for Mailhog
-- Listened-to ports
-
 ## Usage
 
 All options and configuration can be done through interacting with the parameters
-on the main mailhog class.
+on the main example class.
 These are now documented via [Puppet Strings](https://github.com/puppetlabs/puppet-strings)
 
 You can view example usage in [REFERENCE](REFERENCE.md).
@@ -41,7 +36,7 @@ See [REFERENCE](REFERENCE.md).
 
 ## Limitations
 
-This module currently only exposes a subset of all configuration options.
+This is where you list OS compatibility, version compatibility, etc.
 
 ## Development
 
