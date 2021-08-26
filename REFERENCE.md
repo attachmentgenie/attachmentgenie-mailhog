@@ -18,7 +18,7 @@
 
 ## Classes
 
-### `mailhog`
+### <a name="mailhog"></a>`mailhog`
 
 Class to install and configure mailhog.
 
@@ -37,69 +37,81 @@ class { '::mailhog':
 
 #### Parameters
 
-The following parameters are available in the `mailhog` class.
+The following parameters are available in the `mailhog` class:
 
-##### `config`
+* [`config`](#config)
+* [`config_file`](#config_file)
+* [`install_dir`](#install_dir)
+* [`install_method`](#install_method)
+* [`manage_service`](#manage_service)
+* [`package_name`](#package_name)
+* [`package_version`](#package_version)
+* [`service_name`](#service_name)
+* [`service_provider`](#service_provider)
+* [`service_ensure`](#service_ensure)
+* [`archive_source`](#archive_source)
+
+##### <a name="config"></a>`config`
 
 Data type: `String[1]`
 
 Mailhog config.
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Stdlib::Absolutepath`
 
 Mailhog config file.
 
-##### `install_dir`
+##### <a name="install_dir"></a>`install_dir`
 
 Data type: `Stdlib::Absolutepath`
 
 Location of mailhog binary release.
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `Enum['package','archive']`
 
 How to install mailhog.
 
-##### `manage_service`
+##### <a name="manage_service"></a>`manage_service`
 
 Data type: `Boolean`
 
 Manage the mailhog service.
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `String[1]`
 
 Name of package to install.
 
-##### `package_version`
+##### <a name="package_version"></a>`package_version`
 
 Data type: `String[1]`
 
 Version of mailhog to install.
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `String[1]`
 
 Name of service to manage.
 
-##### `service_provider`
+##### <a name="service_provider"></a>`service_provider`
 
 Data type: `String[1]`
 
 Init system that is used.
 
-##### `service_ensure`
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Enum['running','stopped']`
 
 The state of the service.
 
-##### `archive_source`
+##### <a name="archive_source"></a>`archive_source`
 
 Data type: `Optional[Stdlib::HTTPUrl]`
 
