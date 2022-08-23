@@ -32,9 +32,11 @@ class mailhog (
   Enum['running','stopped'] $service_ensure,
   Optional[Stdlib::HTTPUrl] $archive_source = undef,
 ) {
-  anchor { 'mailhog::begin': }
-  -> class{ '::mailhog::install': }
-  -> class{ '::mailhog::config': }
-  ~> class{ '::mailhog::service': }
-  -> anchor { 'mailhog::end': }
+  contain 'mailhog::install'
+  contain 'mailhog::config'
+  contain 'mailhog::service'
+
+  Class['mailhog::install']
+  -> Class['mailhog::config']
+  ~> Class['mailhog::service']
 }
