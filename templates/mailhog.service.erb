@@ -7,3 +7,6 @@ Type=simple
 EnvironmentFile=<%= scope['mailhog::config_file'] %>
 ExecStart=<%= scope['mailhog::install_dir'] %>/mailhog $MAILHOG_OPTS > /dev/null 2>&1
 ExecStop=<%= scope['mailhog::install_dir'] %>/mailhog > /dev/null 2>&1
+
+[Install]
+WantedBy=multi-user.target
